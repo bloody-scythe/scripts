@@ -1,0 +1,13 @@
+#!/bin/bash
+
+terminal="st -n float"
+
+
+stdin() {
+	while read line
+	do
+		echo "$line"
+	done
+}
+
+stdin | $terminal fzf "$@"
