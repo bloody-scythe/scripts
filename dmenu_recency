@@ -4,25 +4,25 @@
 # Pretty much re-written by Mina Nagy (mnzaki)
 # Edited by Chrysostomus to create/source .dmenurc
 
-if [ -z "$TERMINAL_CMD" ]; then
+if [ -z "$TERMINAL" ]; then
   if [ "$(which terminal)" ]; then
-  TERMINAL_CMD="terminal -e"
+  TERMINAL="terminal -e"
   elif [ "$(which urxvt)" ]; then
-  TERMINAL_CMD="urxvt -e"
+  TERMINAL="urxvt -e"
   elif [ "$(which termite)" ]; then
-  TERMINAL_CMD="termite -e"
+  TERMINAL="termite -e"
   elif [ "$(which terminator)" ]; then
-  TERMINAL_CMD="terminator -e"
+  TERMINAL="terminator -e"
   elif [ "$(which gnome-terminal)" ]; then
-  TERMINAL_CMD="gnome-terminal -e"
+  TERMINAL="gnome-terminal -e"
   elif [ "$(which lxterminal)" ]; then
-  TERMINAL_CMD="lxterminal -e"
+  TERMINAL="lxterminal -e"
   elif [ "$(which sakura)" ]; then
-  TERMINAL_CMD="sakura -e"
+  TERMINAL="sakura -e"
   elif [ "$(which xfce4-terminal)" ]; then
-  TERMINAL_CMD="xfce4-terminal -e"
+  TERMINAL="xfce4-terminal -e"
   elif [ "$(which xterm)" ]; then
-  TERMINAL_CMD="xterm -e"
+  TERMINAL="xterm -e"
   fi
 fi
 
@@ -52,7 +52,7 @@ cmd=$(cat "$recent_cache" "$rest_cache" | $dmenu_cmd -p run: "$@") || exit
 
 if ! grep -qx "$cmd" "$recent_cache" &> /dev/null; then
     grep -vx "$cmd" "$rest_cache" > "$rest_cache.$$"
-    if -s "$rest_cache.$$"; then
+    if [ -s "$rest_cache.$$" ]; then
         mv "$rest_cache.$$" "$rest_cache"
     else
         rm "$rest_cache.$$"
@@ -90,6 +90,6 @@ else
 fi
 
 [[ "$type" = "background" ]] && exec $cmd
-[[ "$type" = "terminal" ]] && exec $TERMINAL_CMD "$cmd"
+[[ "$type" = "terminal" ]] && exec $TERMINAL "$cmd"
 [[ "$type" = "terminal_hold" ]] &&
     exec $TERMINAL_CMD sh -c "$cmd && echo Press Enter to kill me... && read line"
