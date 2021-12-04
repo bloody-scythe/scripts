@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Kill unnecessary programs
+
+pkill picom
+pkill udiskie
+pkill parcellite
+pkill pa-applet
+pkill cbatticon
+pkill nm-applet
+
+# Stop services
+sudo systemctl stop syncthing@$USER
+sudo systemctl stop udisks2
+sudo systemctl stop cronie

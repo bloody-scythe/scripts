@@ -15,6 +15,8 @@ case $1 in
    *.7z)        7z x $1        ;;
    *)           echo "don't know how to extract '$1'..." ;;
 esac
-else
+
+elsE
+
 echo "'$1' is not a valid file!"
 fi

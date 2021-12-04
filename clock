@@ -1,18 +1,8 @@
 #!/bin/bash
-[ -z "$1" ] && font=tty || font="$1"
 
-columns="$(tput cols)"
-
-center(){
-	while IFS= read -r line; do
-		printf "%*s\n" $(( (${#line} + columns) / 2)) "$line"
-	done < "$1"
-}
+tput clear
 
 while true; do
-	date +"%H:%M:%S"|figlet -f $font >> /tmp/clock_time
-	tput clear
-	date +"%H:%M:%S"|figlet -f $font
-	# center /tmp/clock_time
+	printf "$(date +"%H:%M:%S %D")\r"
 	sleep 1
 done
