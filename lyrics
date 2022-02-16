@@ -1,0 +1,3 @@
+#!/bin/bash
+lyrics="$HOME/Sync/Music/lyrics"
+less "$lyrics/$(ls $lyrics|fzf)"

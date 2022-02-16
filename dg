@@ -1,4 +1,0 @@
-#!/bin/bash
-browser=${BROWSER:-"w3m"}
-url="https://duckduckgo.com/?q=$@"
-$browser "$url"

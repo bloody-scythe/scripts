@@ -75,3 +75,4 @@ format=${format:-"bestvideo[height<=?1080]+bestaudio/best"}
 
 
 $command mpv --ytdl-format="$format" $argv
+$command mpv --ytdl-format="$format" $argv

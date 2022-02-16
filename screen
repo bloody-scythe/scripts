@@ -1,2 +1,3 @@
+#!/bin/sh
 path="~/.screenlayout"
 ls ~/.screenlayout | dmenu | xargs -i bash -c $path/"{}"

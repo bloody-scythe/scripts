@@ -1,0 +1,16 @@
+#!/bin/bash
+
+terminal="st -n float"
+temp=$(mktemp)
+
+if read -t 0 ; then
+	cat - > $temp
+	# cat <&0 > $temp
+	st -n float -e bash -c "cat $temp | fzf "$@" |tee $temp"
+else 
+	echo no
+	st -n float -e bash -c "fzf "$@" > $temp"
+fi
+
+cat $temp
+

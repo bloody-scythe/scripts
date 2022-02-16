@@ -1,4 +1,0 @@
-#!/bin/bash
-browser=${XBROWSER:-"surf"}
-url="https://duckduckgo.com/?q=$@"
-$browser "$url"
