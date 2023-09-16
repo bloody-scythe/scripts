@@ -1,3 +1,0 @@
-#!/bin/bash
-
-echo -e "br\nbr nodeadkeys\nus" | dmenu | xargs setxkbmap

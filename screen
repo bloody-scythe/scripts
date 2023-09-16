@@ -1,3 +1,24 @@
-#!/bin/sh
-path="~/.screenlayout"
-ls ~/.screenlayout | dmenu | xargs -i bash -c $path/"{}"
+#!/bin/bash
+# Shows scripts saved to arandr's default folder in dmenu
+
+menu=${XMENU:-dmenu}
+folder="$HOME/.screenlayout"
+
+# Make the choice
+if [ "$1" == "-auto" ]; then
+    choice="auto"
+else
+    choice="$( ls "$folder" | sed "s/\..*$//" | $menu )"
+fi
+
+if [ -z "$choice" ]; then choice=auto ; fi
+
+# Act on it
+echo "$(basename $0): Setting to $choice"
+if [ "$choice" == "auto" ]; then
+    exec $folder/$choice.sh
+else
+    ln -sf $folder/$choice.sh $folder/auto.sh
+    exec $folder/$choice.sh
+fi
+
