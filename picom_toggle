@@ -1,2 +1,0 @@
-#!/bin/env bash
-if [ -z $(pgrep picom) ]; then picom & else pkill picom; fi

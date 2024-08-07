@@ -1,1 +1,2 @@
+#!/bin/bash
 printf "$(curl -s https://api64.ipify.org)\n"

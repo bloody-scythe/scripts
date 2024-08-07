@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ "`pgrep OpenTablet`" ]; then
+    pkill OpenTablet
+else
+    otd-daemon & >> /dev/null
+    disown
+fi
+

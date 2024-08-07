@@ -1,0 +1,39 @@
+#!/bin/env python
+import json
+from subprocess import Popen, PIPE
+from os import environ
+
+# A function to run dmenu. Expect a list of items
+def dmenu(items_list, lines=0, dmenu="dmenu"):
+    input = "\n".join(items_list)
+    options = "-l " + str(lines)
+    p = Popen([ dmenu, '-l', str(lines) ], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    choice = p.communicate(input=bytes(input, 'utf8'))[0]
+    return choice.decode().strip('\n')
+
+def fzf(items_list, fzf="fzf"):
+    input = "\n".join(items_list)
+    p = Popen([ fzf ], stdin=PIPE, stdout=PIPE)
+    choice = p.communicate(input=bytes(input, 'utf8'))[0]
+    return choice.decode().strip('\n')
+
+def mpv(media):
+    try:
+        p = Popen(['mpv','--no-video' ,media], stderr=PIPE)
+        p.wait()
+    except KeyboardInterrupt:
+        pass
+
+if __name__ == "__main__":
+    radio_file = environ['HOME'] + "/Music/radio.json"
+    with open(radio_file) as f:
+        radios = json.load(f)
+
+    if "DISPLAY" in environ.keys():
+        radio_name = dmenu(radios.keys(), 5)
+        radio = radios[radio_name]
+    else:
+        radio_name = fzf(radios.keys())
+        radio = radios[radio_name]
+
+    mpv(radio)

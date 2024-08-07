@@ -10,7 +10,6 @@ pip install $python_packages --upgrade
 
 # configure my dotfiles
 git clone "https://github.com/bloody-scythe/dotfiles" $HOME/git/dotfiles
-$HOME/git/dotfiles/setup.sh
 
 # get my scripts and programs
 git clone "https://github.com/bloody-scythe/scripts" $HOME/git/scripts
@@ -21,12 +20,4 @@ git config --global user.email "bloodyscythe404@gmail.com"
 git config --global user.name "Bloody-Scythe"
 git config --global pull.rebase false
 
-# set sshd autostart in bashrc
-
-echo "
-# keep temux awake
-termux-wake-lock
-
-# autostart sshd
-pgrep shhd || sshd >> /dev/null" >> $HOME/.bashrc
 termux-setup-storage

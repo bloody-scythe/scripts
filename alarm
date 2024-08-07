@@ -1,0 +1,14 @@
+#!/bin/bash
+
+ALARM="$HOME/Music/tones/alarm.oga"
+
+#before
+VOL=$(pamixer --get-volume)
+pamixer --allow-boost --set-volume 100
+
+#main
+sleep $1
+mpv "$ALARM"
+
+#after
+pamixer --allow-boost --set-volume $VOL
