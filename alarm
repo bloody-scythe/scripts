@@ -4,10 +4,11 @@ ALARM="$HOME/Music/tones/alarm.oga"
 
 #before
 VOL=$(pamixer --get-volume)
+sleep $1
 pamixer --allow-boost --set-volume 100
 
+
 #main
-sleep $1
 mpv "$ALARM"
 
 #after
