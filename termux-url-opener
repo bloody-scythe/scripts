@@ -3,9 +3,10 @@
 
 if [[ "$1" =~ "^www.https://youtube.com.*$" ]]; then
     mp3 "$1"
-elif [[ "$1" =~ "^https://youtube.com.*$" ]]
+elif [[ "$1" =~ "^https://youtube.com.*$" ]]; then
     mp3 "$1"
 else
     echo "URL doesn't match a known case."
+    echo "URL: $1"
     sleep 5
 fi
