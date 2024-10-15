@@ -1,23 +1,30 @@
 #!/bin/bash
 
-# update and install packages
-packages="git vifm neovim python ncurses-utils clang lazygit openssh nmap fasd lsd aria2 darkhttpd abduco perl cmus mpv htop"
-yes|apt update && yes|apt upgrade
-yes|apt install $packages
+if [ "$1" == "--init" ]; then
+    # here is the inicialization and installing applications
+    pacman-key --init && pacman-key --populate
 
-python_packages="pip youtube-dl"
-pip install $python_packages --upgrade
+    pacman -Syu clang 
 
-# configure my dotfiles
-git clone "https://github.com/bloody-scythe/dotfiles" $HOME/git/dotfiles
 
-# get my scripts and programs
-git clone "https://github.com/bloody-scythe/scripts" $HOME/git/scripts
-termux-fix-shebang $HOME/git/scripts/*
 
-# configure git
-git config --global user.email "bloodyscythe404@gmail.com"
-git config --global user.name "Bloody-Scythe"
-git config --global pull.rebase false
+else
+    # Here start the initial step for installing the pacman bootstrap
+    # Download wget for downloading resources
+    pkg install wget
+    #Go to the folder for termux files
+    pushd "$PREFIX/.."
+        #Download pacman bootstrap from github releases
+        wget `curl -s https://api.github.com/repos/termux/termux-packages/releases/latest | grep 'bootstrap-aarch64\.zip'  | tail -1 | cut -d : -f 2,3  | tr -d \"`
+        unzip bootstrap-aarch64.zip -d usr-n
 
-termux-setup-storage
+        pushd usr-n
+            cat SYMLINKS.txt | awk -F "←" '{system("ln -s '"'"'"$1"'"'"' '"'"'"$2"'"'"'")}'
+        popd
+        popd
+
+        echo "BOOTSTRAP: Next, must reboot termux in failsafe mode."
+        echo "Must also manually remove usr folder and rename usr-n."
+        echo "After, you can run this script with the --init flag"
+    fi
+popd
