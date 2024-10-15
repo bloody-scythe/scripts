@@ -3,28 +3,66 @@
 if [ "$1" == "--init" ]; then
     # here is the inicialization and installing applications
     pacman-key --init && pacman-key --populate
+    TERMINAL_BASICS="git stow neovim wget iproute 2 openssh ncurses-utils fasd"
+    PROGRAMS="lazygit aria2 gh vifm"
+    LANGUAGES="clang python rust golang lua53"
+    X11="termux-x11 openbox tigervnc"
+    pacman -Syu $TERMINAL_BASICS $PROGRAMS $LANGUAGES $X11
 
-    pacman -Syu clang 
+    # Downloading my stuff and configurations
+    GITHUB="https://github.com"
+    USER="bloody-scythe"
+
+    mkdir ~/git
+    pushd ~/git
+            #Let's start with mt dotfiles
+            git clone $GITHUB/$USER/dotfiles
+            pushd dotfiles
+                stow --dotfiles stow termux
+            popd
+
+            #Now dwm
+            git clone $GITHUB/$USER/dwm
+            pushd dwm
+                git branch termux origin/termux
+                git checkout termux
+                
+                make install
+                make clean
+            popd
+
+            # Now st
+
+            git clone $GITHUB/$USER/dwm
+            pushd dwm
+                git branch termux origin/termux
+                git checkout termux
+                
+                make install
+                make clean
+            popd
 
 
 
+    popd
 else
+
     # Here start the initial step for installing the pacman bootstrap
     # Download wget for downloading resources
-    pkg install wget
+    yes|pkg install wget
     #Go to the folder for termux files
     pushd "$PREFIX/.."
         #Download pacman bootstrap from github releases
-        wget `curl -s https://api.github.com/repos/termux/termux-packages/releases/latest | grep 'bootstrap-aarch64\.zip'  | tail -1 | cut -d : -f 2,3  | tr -d \"`
+        url=`curl -s https://api.github.com/repos/termux/termux-packages/releases/latest | grep 'bootstrap-aarch64\.zip'  | tail -1 | cut -d : -f 2,3  | tr -d \"`
+
         unzip bootstrap-aarch64.zip -d usr-n
 
         pushd usr-n
             cat SYMLINKS.txt | awk -F "←" '{system("ln -s '"'"'"$1"'"'"' '"'"'"$2"'"'"'")}'
         popd
-        popd
 
         echo "BOOTSTRAP: Next, must reboot termux in failsafe mode."
         echo "Must also manually remove usr folder and rename usr-n."
         echo "After, you can run this script with the --init flag"
-    fi
-popd
+    popd
+fi
